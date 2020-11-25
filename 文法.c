@@ -20,4 +20,4 @@ pow -> factor {^ factor}
 mulop -> *|/|%
 factor -> (exp)|number|identifier
 
-// TODO += ^ 属于哪的
+plus-self -> identifier += pow

@@ -172,7 +172,11 @@ TreeNode *assign_stmt(void)
   if ((t != NULL) && (token == ID))
     t->attr.name = copyString(tokenString);
   match(ID);
-  match(ASSIGN);
+  if (token == LTEQ){
+    match(LTEQ);
+  }else {
+    match(ASSIGN);
+  }
   if (t != NULL)
     t->child[0] = exp();
   return t;
