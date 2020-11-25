@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "MAIN.C": "cpp",
+        "CODE.C": "cpp",
+        "PARSE.C": "cpp",
+        "UTIL.C": "cpp",
+        "SCAN.C": "cpp",
+        "SYMTAB.C": "cpp"
+    }
+}
