@@ -110,13 +110,39 @@ TokenType getToken(void)
                save = FALSE;
                currentToken = ENDFILE;
                break;
+             case '%':
+             //add MOD(%) judgement
+              currentToken = MOD;
+              break;
+             case '^':
+             //add PW(^) judgement
+              currentToken = PW;
+              break;
              case '=':
                currentToken = EQ;
                break;
              case '<':
+               int temp = getNextChar();
+               if(temp == '='){
+                 //add LTEQ(<=) judgement
+                 currentToken = LTEQ;
+                 break;
+               }else if(temp == '>'){
+                 //add NEQ(<>) judgement
+                 currentToken = NEQ;
+                 break;
+               }
                currentToken = LT;
+               ungetNextChar();
                break;
              case '+':
+               int temp = getNextChar();
+               if(temp == '='){
+                 //add PLEQ(+=) judgement
+                 currentToken = PLEQ;
+                 break;
+               }
+               ungetNextChar();
                currentToken = PLUS;
                break;
              case '-':
@@ -137,7 +163,7 @@ TokenType getToken(void)
              case ';':
                currentToken = SEMI;
                break;
-			   /*extend MOD,¼´ÇóÓà·ûºÅ*/
+			   /*extend MOD,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½*/
 			 case '%':
 			   currentToken = MOD;
 			   break;

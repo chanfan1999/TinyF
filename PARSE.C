@@ -28,6 +28,7 @@ static TreeNode *factor(void);
 static TreeNode *while_stmt(void);
 static TreeNode *doWhile_stmt(void);
 static TreeNode *for_stmt(void);
+static TreeNode *pow(void);
 
 static void syntaxError(char *message)
 {
@@ -233,10 +234,46 @@ TreeNode *simple_exp(void)
   return t;
 }
 
+// TreeNode *term(void)
+// {
+//   TreeNode *t = factor();
+//   while ((token == TIMES) || (token == OVER) /*extend new syntax %*/ || (token == MOD))
+//   {
+//     TreeNode *p = newExpNode(OpK);
+//     if (p != NULL)
+//     {
+//       p->child[0] = t;
+//       p->attr.op = token;
+//       t = p;
+//       match(token);
+//       p->child[1] = factor();
+//     }
+//   }
+//   return t;
+// }
+
 TreeNode *term(void)
 {
-  TreeNode *t = factor();
+  TreeNode *t = pow();
   while ((token == TIMES) || (token == OVER) /*extend new syntax %*/ || (token == MOD))
+  {
+    TreeNode *p = newExpNode(OpK);
+    if (p != NULL)
+    {
+      p->child[0] = t;
+      p->attr.op = token;
+      t = p;
+      match(token);
+      p->child[1] = pow();
+    }
+  }
+  return t;
+}
+
+TreeNode *pow(void)
+{
+  TreeNode *t = factor();
+  while (token == PW)
   {
     TreeNode *p = newExpNode(OpK);
     if (p != NULL)
