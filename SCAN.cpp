@@ -25,7 +25,7 @@ static char lineBuf[BUFLEN]; /* holds the current line */
 static int linepos = 0; /* current position in LineBuf */
 static int bufsize = 0; /* current size of buffer string */
 static int EOF_flag = FALSE; /* corrects ungetNextChar behavior on EOF */
-
+static int temp = 0;
 /* getNextChar fetches the next non-blank character
    from lineBuf, reading in a new line if lineBuf is
    exhausted */
@@ -122,7 +122,7 @@ TokenType getToken(void)
                currentToken = EQ;
                break;
              case '<':
-               int temp = getNextChar();
+               temp = getNextChar();
                if(temp == '='){
                  //add LTEQ(<=) judgement
                  currentToken = LTEQ;
@@ -136,7 +136,7 @@ TokenType getToken(void)
                ungetNextChar();
                break;
              case '+':
-               int temp = getNextChar();
+               temp = getNextChar();
                if(temp == '='){
                  //add PLEQ(+=) judgement
                  currentToken = PLEQ;
