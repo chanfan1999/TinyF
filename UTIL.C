@@ -41,6 +41,7 @@ void printToken( TokenType token, const char* tokenString )
     case NEQ: fprintf(listing,"<>\n"); break;
     case PLEQ: fprintf(listing,"+=\n"); break;
     case PW: fprintf(listing,"^\n"); break;
+    case MOD: fprintf(listing,"%\n"); break;
     
     case NUM:
       fprintf(listing,
