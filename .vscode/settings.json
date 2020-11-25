@@ -5,6 +5,7 @@
         "PARSE.C": "cpp",
         "UTIL.C": "cpp",
         "SCAN.C": "cpp",
-        "SYMTAB.C": "cpp"
+        "SYMTAB.C": "cpp",
+        "ANALYZE.C": "cpp"
     }
 }

@@ -163,10 +163,6 @@ TokenType getToken(void)
              case ';':
                currentToken = SEMI;
                break;
-			   /*extend MOD,���������*/
-			 case '%':
-			   currentToken = MOD;
-			   break;
              default:
                currentToken = ERROR;
                break;
