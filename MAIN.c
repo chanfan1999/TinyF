@@ -39,7 +39,7 @@ FILE * code;
 /* allocate and set tracing flags */
 int EchoSource = FALSE;
 int TraceScan = FALSE;
-int TraceParse = TRUE;
+int TraceParse = FALSE;
 int TraceAnalyze = FALSE;
 int TraceCode = FALSE;
 
@@ -55,51 +55,46 @@ main( int argc, char * argv[] )
   strcpy(pgm,argv[1]) ;
   if (strchr (pgm, '.') == NULL)
      strcat(pgm,".tny");
-  // 打开指定文件
   source = fopen(pgm,"r");
   if (source==NULL)
-  { printf(stderr,"File %s not found\n",pgm);
+  { fprintf(stderr,"File %s not found\n",pgm);
     exit(1);
   }
-  // listing = stdout; /* send listing to screen */
-  listing = fopen("syntaxTree.txt","w"); // output to txt File
-  printf("\nTINY COMPILATION: %s\n",pgm);
+  listing = stdout; /* send listing to screen */
+  fprintf(listing,"\nTINY COMPILATION: %s\n",pgm);
 #if NO_PARSE
   while (getToken()!=ENDFILE);
 #else
   syntaxTree = parse();
   if (TraceParse) {
-    printf("checkout in file:syntaxTree.txt!");
     fprintf(listing,"\nSyntax tree:\n");
     printTree(syntaxTree);
   }
-// #if !NO_ANALYZE
-//   if (! Error)
-//   { if (TraceAnalyze) fprintf(listing,"\nBuilding Symbol Table...\n");
-//     buildSymtab(syntaxTree);
-//     if (TraceAnalyze) fprintf(listing,"\nChecking Types...\n");
-//     typeCheck(syntaxTree);
-//     if (TraceAnalyze) fprintf(listing,"\nType Checking Finished\n");
-//   }
-
-//可移除编译成虚拟机文件模块
-// #if !NO_CODE
-//   if (! Error)
-//   { char * codefile;
-//     int fnlen = strcspn(pgm,".");
-//     codefile = (char *) calloc(fnlen+4, sizeof(char));
-//     strncpy(codefile,pgm,fnlen);
-//     strcat(codefile,".tm");
-//     code = fopen(codefile,"w");
-//     if (code == NULL)
-//     { printf("Unable to open %s\n",codefile);
-//       exit(1);
-//     }
-//     codeGen(syntaxTree,codefile);
-//     fclose(code);
-//   }
-// #endif
-// #endif
+#if !NO_ANALYZE
+  if (! Error)
+  { if (TraceAnalyze) fprintf(listing,"\nBuilding Symbol Table...\n");
+    buildSymtab(syntaxTree);
+    if (TraceAnalyze) fprintf(listing,"\nChecking Types...\n");
+    typeCheck(syntaxTree);
+    if (TraceAnalyze) fprintf(listing,"\nType Checking Finished\n");
+  }
+#if !NO_CODE
+  if (! Error)
+  { char * codefile;
+    int fnlen = strcspn(pgm,".");
+    codefile = (char *) calloc(fnlen+4, sizeof(char));
+    strncpy(codefile,pgm,fnlen);
+    strcat(codefile,".tm");
+    code = fopen(codefile,"w");
+    if (code == NULL)
+    { printf("Unable to open %s\n",codefile);
+      exit(1);
+    }
+    codeGen(syntaxTree,codefile);
+    fclose(code);
+  }
+#endif
+#endif
 #endif
   fclose(source);
   return 0;
