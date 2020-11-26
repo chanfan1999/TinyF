@@ -58,16 +58,18 @@ main( int argc, char * argv[] )
   // 打开指定文件
   source = fopen(pgm,"r");
   if (source==NULL)
-  { fprintf(stderr,"File %s not found\n",pgm);
+  { printf(stderr,"File %s not found\n",pgm);
     exit(1);
   }
-  listing = stdout; /* send listing to screen */
-  fprintf(listing,"\nTINY COMPILATION: %s\n",pgm);
+  // listing = stdout; /* send listing to screen */
+  listing = fopen("syntaxTree.txt","w"); // output to txt File
+  printf("\nTINY COMPILATION: %s\n",pgm);
 #if NO_PARSE
   while (getToken()!=ENDFILE);
 #else
   syntaxTree = parse();
   if (TraceParse) {
+    printf("checkout in file:syntaxTree.txt!");
     fprintf(listing,"\nSyntax tree:\n");
     printTree(syntaxTree);
   }
